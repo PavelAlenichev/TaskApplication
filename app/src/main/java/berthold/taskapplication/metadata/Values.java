@@ -4,6 +4,9 @@ package berthold.taskapplication.metadata;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Values {
 
     @SerializedName("empty")
@@ -60,6 +63,17 @@ public class Values {
 
     public void setK4(String k4) {
         this.k4 = k4;
+    }
+
+    public List<String> getAll() {
+        ArrayList<String> wholeValues = new ArrayList<>();
+
+        wholeValues.add(getK1());
+        wholeValues.add(getK2());
+        wholeValues.add(getK3());
+        wholeValues.add(getK4());
+
+        return wholeValues;
     }
 
 }

@@ -50,5 +50,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
 
+    compile 'com.github.vivchar:RendererRecyclerViewAdapter:1.0.10'
+
     testCompile 'junit:junit:4.12'
 }

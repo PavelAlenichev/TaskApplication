@@ -1,14 +1,21 @@
 package berthold.taskapplication;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
 
 import berthold.taskapplication.metadata.Field;
+import berthold.taskapplication.service.TypesOfFields;
 
 /**
  * Created by User on 24.03.2017.
@@ -17,9 +24,11 @@ import berthold.taskapplication.metadata.Field;
 public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHolder> {
 
     private List<Field> fields;
+    private Context context;
 
-    public MetaDataAdapter(List<Field> fields) {
+    public MetaDataAdapter(List<Field> fields, Context applicationContext) {
         this.fields = fields;
+        this.context = applicationContext;
     }
 
     @Override
@@ -34,6 +43,31 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         Field field = fields.get(position);
 
         holder.dataItem.setText(field.getTitle());
+
+        //TODO: FABRIC
+
+        if (field.getType().equals(TypesOfFields.TEXT.toString())) {
+            EditText editText = new EditText(context);
+            editText.setTextColor(Color.BLACK);
+            holder.metadataLayout.addView(editText);
+        } else if (field.getType().equals(TypesOfFields.NUMERIC.toString())) {
+            EditText editNumeric = new EditText(context);
+            editNumeric.setInputType(3);
+            editNumeric.setTextColor(Color.BLACK);
+            holder.metadataLayout.addView(editNumeric);
+        } else if (field.getType().equals(TypesOfFields.LIST.toString())) {
+            Spinner spinner = new Spinner(context);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    context,
+                    android.R.layout.simple_spinner_item,
+                    field.getValues().getAll());
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            holder.metadataLayout.addView(spinner);
+        }
+
+
     }
 
     @Override
@@ -46,10 +80,13 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView dataItem;
+        LinearLayout metadataLayout;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             dataItem = (TextView) itemView.findViewById(R.id.metadataPost);
+            metadataLayout = (LinearLayout) itemView.findViewById(R.id.metadataLayout);
         }
     }
 }
