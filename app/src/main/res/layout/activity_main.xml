@@ -7,8 +7,18 @@
     tools:context="berthold.taskapplication.MainActivity">
 
 
+    <Button
+        android:id="@+id/sendButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Send"
+        app:layout_constraintTop_toBottomOf="@+id/data_recycle_view"
+        tools:layout_editor_absoluteX="8dp" />
+
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_alignParentTop="true"
