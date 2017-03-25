@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +25,10 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
 
     private List<Field> fields;
     private Context context;
+    private EditText editNumeric;
+    private EditText editText;
+    private TextView postItem;
+    private Spinner spinner;
 
     public MetaDataAdapter(List<Field> fields, Context applicationContext) {
         this.fields = fields;
@@ -42,21 +46,55 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
     public void onBindViewHolder(MetaDataAdapter.ViewHolder holder, int position) {
         Field field = fields.get(position);
 
-        holder.dataItem.setText(field.getTitle());
+        postItem = new TextView(context);
+        postItem.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        postItem.setTextColor(R.color.colorPrimary);
+        postItem.setText(field.getTitle());
+
+        GridLayout.Spec row = GridLayout.spec(position);
+        GridLayout.Spec column = GridLayout.spec(0);
+        GridLayout.LayoutParams gridLayoutParam = new GridLayout.LayoutParams(row, column);
+
+        holder.metadataLayout.addView(postItem, gridLayoutParam);
+
+        holder.metadataLayout.setPadding(10, 0, 10, 0);
+
+        //holder.dataItem.setText(field.getTitle());
 
         //TODO: FABRIC
 
         if (field.getType().equals(TypesOfFields.TEXT.toString())) {
-            EditText editText = new EditText(context);
+            editText = new EditText(context);
             editText.setTextColor(Color.BLACK);
-            holder.metadataLayout.addView(editText);
+            editText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+            GridLayout.Spec columnnum = GridLayout.spec(1, GridLayout.CENTER);
+            GridLayout.Spec rownum = GridLayout.spec(position);
+
+            GridLayout.LayoutParams numParams = new GridLayout.LayoutParams(rownum, columnnum);
+            editText.setMaxLines(1);
+            numParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
+
+
+            holder.metadataLayout.addView(editText, numParams);
+
+
         } else if (field.getType().equals(TypesOfFields.NUMERIC.toString())) {
-            EditText editNumeric = new EditText(context);
-            editNumeric.setInputType(3);
+            editNumeric = new EditText(context);
+            editNumeric.setInputType(2);
             editNumeric.setTextColor(Color.BLACK);
-            holder.metadataLayout.addView(editNumeric);
+
+            GridLayout.Spec columnnum = GridLayout.spec(1, GridLayout.CENTER);
+            GridLayout.Spec rownum = GridLayout.spec(position);
+
+            GridLayout.LayoutParams numParams = new GridLayout.LayoutParams(rownum, columnnum);
+            editNumeric.setMaxLines(1);
+            numParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
+
+            holder.metadataLayout.addView(editNumeric, numParams);
+
         } else if (field.getType().equals(TypesOfFields.LIST.toString())) {
-            Spinner spinner = new Spinner(context);
+            spinner = new Spinner(context);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     context,
                     android.R.layout.simple_spinner_item,
@@ -64,10 +102,14 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
             spinner.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            holder.metadataLayout.addView(spinner);
+
+            GridLayout.Spec columnnum = GridLayout.spec(1, GridLayout.CENTER);
+            GridLayout.Spec rownum = GridLayout.spec(position);
+
+            GridLayout.LayoutParams numParams = new GridLayout.LayoutParams(rownum, columnnum);
+
+            holder.metadataLayout.addView(spinner, numParams);
         }
-
-
     }
 
     @Override
@@ -80,13 +122,13 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView dataItem;
-        LinearLayout metadataLayout;
+        GridLayout metadataLayout;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            dataItem = (TextView) itemView.findViewById(R.id.metadataPost);
-            metadataLayout = (LinearLayout) itemView.findViewById(R.id.metadataLayout);
+            //dataItem = (TextView) itemView.findViewById(R.id.metadataPost);
+            metadataLayout = (GridLayout) itemView.findViewById(R.id.metadataLayout);
         }
     }
 }
