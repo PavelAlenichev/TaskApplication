@@ -1,5 +1,5 @@
 
-package berthold.taskapplication.metadata;
+package berthold.taskapplication.data.metadata;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

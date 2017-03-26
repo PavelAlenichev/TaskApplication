@@ -2,7 +2,7 @@ package berthold.taskapplication.service;
 
 import java.util.List;
 
-import berthold.taskapplication.metadata.Field;
+import berthold.taskapplication.data.metadata.Field;
 
 /**
  * Created by User on 25.03.2017.

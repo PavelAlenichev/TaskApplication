@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 
 import berthold.taskapplication.service.Definer;
 import berthold.taskapplication.service.MetaDataAdapter;
-import berthold.taskapplication.metadata.Form;
+import berthold.taskapplication.data.sending_data.Form;
 
 /**
  * Created by User on 26.03.2017.

@@ -19,11 +19,11 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import berthold.taskapplication.metadata.DataForSend;
-import berthold.taskapplication.metadata.Field;
-import berthold.taskapplication.metadata.Form;
-import berthold.taskapplication.metadata.InformationResponse;
-import berthold.taskapplication.metadata.MetaData;
+import berthold.taskapplication.data.sending_data.DataForSend;
+import berthold.taskapplication.data.metadata.Field;
+import berthold.taskapplication.data.sending_data.Form;
+import berthold.taskapplication.data.result_response.InformationResponse;
+import berthold.taskapplication.data.metadata.MetaData;
 import berthold.taskapplication.serializers.DataSerializer;
 import berthold.taskapplication.serializers.FormSerializer;
 import berthold.taskapplication.service.App;

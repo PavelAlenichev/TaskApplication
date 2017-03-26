@@ -7,7 +7,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
-import berthold.taskapplication.metadata.DataForSend;
+import berthold.taskapplication.data.sending_data.DataForSend;
 
 /**
  * Created by User on 26.03.2017.

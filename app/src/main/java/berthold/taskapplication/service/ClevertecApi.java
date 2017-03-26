@@ -1,7 +1,7 @@
 package berthold.taskapplication.service;
 
-import berthold.taskapplication.metadata.InformationResponse;
-import berthold.taskapplication.metadata.MetaData;
+import berthold.taskapplication.data.result_response.InformationResponse;
+import berthold.taskapplication.data.metadata.MetaData;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
