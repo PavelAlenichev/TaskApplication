@@ -3,9 +3,8 @@ package berthold.taskapplication.data.sending_data;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by User on 26.03.2017.
+ * Значения полей данных
  */
-
 public class Form {
 
     @Expose

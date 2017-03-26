@@ -10,9 +10,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by User on 23.03.2017.
+ * Создание Retrofit'a, с помощью которого обрабатываются запросы
  */
-
 public class App extends Application {
 
     private static ClevertecApi api;

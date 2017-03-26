@@ -12,10 +12,9 @@ import berthold.taskapplication.service.MetaDataAdapter;
 import berthold.taskapplication.data.sending_data.Form;
 
 /**
- * Created by User on 26.03.2017.
+ * Сериализация полей данных
  */
-
-public class FormSerializer implements JsonSerializer<Form>{
+public class FormSerializer implements JsonSerializer<Form> {
     @Override
     public JsonElement serialize(Form src, Type typeOfSrc, JsonSerializationContext context) {
 

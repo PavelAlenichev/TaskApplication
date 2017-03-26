@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,17 +15,14 @@ import berthold.taskapplication.R;
 import berthold.taskapplication.data.metadata.Field;
 
 /**
- * Created by User on 24.03.2017.
+ * Адаптер для RecyclerView с динамическим построением формы
  */
 
 public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHolder> {
 
     private static List<Field> fields;
     private Context context;
-    private EditText editNumeric;
-    private EditText editText;
     private TextView postItem;
-    private Spinner spinner;
 
     private static GridLayout metadataLayout;
 
@@ -83,10 +78,10 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
 
 
         ViewFactory factory = new ViewFactory();
-        factory.setViews(context,field,position,metadataLayout);
+        factory.setViews(context, field, position, metadataLayout);
     }
 
-    public static List<String> getValues () {
+    public static List<String> getValues() {
 
         ArrayList<String> values = new ArrayList<>();
 
@@ -115,7 +110,6 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
 
 
         public ViewHolder(View itemView) {

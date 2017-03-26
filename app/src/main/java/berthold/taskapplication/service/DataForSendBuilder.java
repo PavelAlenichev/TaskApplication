@@ -4,10 +4,9 @@ import berthold.taskapplication.data.sending_data.DataForSend;
 import berthold.taskapplication.data.sending_data.Form;
 
 /**
- * Created by User on 26.03.2017.
+ * Builder для отправки данных на сервер
  */
-
-public class DataForSendBouilder {
+public class DataForSendBuilder {
     public DataForSend build() {
 
         DataForSend dataForSend = new DataForSend();

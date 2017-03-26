@@ -7,14 +7,22 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by User on 23.03.2017.
+ * POST-запросы на адреса http://test.clevertec.ru/tt/meta и http://test.clevertec.ru/tt/data
  */
-
 public interface ClevertecApi {
 
+    /**
+     * получение мета-данных с сервера
+     *
+     * @return Observable<MetaData> с информацией о форме
+     */
     @POST("meta")
     Observable<MetaData> getMetaData();
 
+    /**
+     * @param json - поля данных
+     * @return Observable<InformationResponse> - с информацией с сервера
+     */
     @POST("data")
-    Observable<InformationResponse> getAnswer(@Query("json")String json);
+    Observable<InformationResponse> getAnswer(@Query("json") String json);
 }

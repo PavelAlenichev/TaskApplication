@@ -3,9 +3,8 @@ package berthold.taskapplication.data.sending_data;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by User on 26.03.2017.
+ * Класс для оправки данных на сервер
  */
-
 public class DataForSend {
 
     @Expose

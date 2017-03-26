@@ -4,9 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by User on 26.03.2017.
+ * Результат, приходящий с сервера после отправки туда значений полей
+ * На основе ответа сервера
  */
-
 public class InformationResponse {
 
 

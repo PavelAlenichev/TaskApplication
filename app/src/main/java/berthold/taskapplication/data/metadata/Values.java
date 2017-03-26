@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Поля листа на основе мета-данных
+ */
 public class Values {
 
     @SerializedName("empty")
@@ -65,6 +68,9 @@ public class Values {
         this.k4 = k4;
     }
 
+    /**
+     * @return ArrayList со всеми значениями. 0 - empty
+     */
     public List<String> getAll() {
         ArrayList<String> wholeValues = new ArrayList<>();
 

@@ -5,7 +5,8 @@ import java.util.List;
 import berthold.taskapplication.data.metadata.Field;
 
 /**
- * Created by User on 25.03.2017.
+ * Для определения имени свойства выпадающего списка
+ * (Была попытка осуществить через рефлексию. После долгих часов hard-try'я она безуспешно провалилась)
  */
 
 public class Definer {
@@ -14,12 +15,10 @@ public class Definer {
     public static String defineSpinnerParam() {
 
         List<String> lol = MetaDataAdapter.getValues();
-
         List<Field> fields = MetaDataAdapter.getFields();
 
 
         String neededValue = lol.get(2);
-
         String param = "0";
 
         for (Field field : fields) {

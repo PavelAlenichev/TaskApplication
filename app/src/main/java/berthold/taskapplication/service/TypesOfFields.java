@@ -1,9 +1,8 @@
 package berthold.taskapplication.service;
 
 /**
- * Created by User on 25.03.2017.
+ * Возможные типы полей
  */
-
 public enum TypesOfFields {
     TEXT,
     NUMERIC,

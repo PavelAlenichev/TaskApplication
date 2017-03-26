@@ -4,6 +4,9 @@ package berthold.taskapplication.data.metadata;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Поля из мета-данных
+ */
 public class Field {
 
     @SerializedName("title")
@@ -31,8 +34,7 @@ public class Field {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 

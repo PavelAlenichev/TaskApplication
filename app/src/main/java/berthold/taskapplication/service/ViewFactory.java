@@ -18,15 +18,22 @@ import berthold.taskapplication.R;
 import berthold.taskapplication.data.metadata.Field;
 
 /**
- * Created by User on 26.03.2017.
+ * Factory для создания view и отображения на RecyclerView
  */
-
 public class ViewFactory {
 
     private EditText editNumeric;
     private EditText editText;
     private Spinner spinner;
 
+    /**
+     * Создание views в зависимости от типа
+     *
+     * @param context
+     * @param field
+     * @param position
+     * @param metadataLayout
+     */
     public void setViews(Context context, Field field, int position, GridLayout metadataLayout) {
         if (field.getType().equals(TypesOfFields.TEXT.toString())) {
 
@@ -47,7 +54,8 @@ public class ViewFactory {
             MetaDataAdapter.setNumValue(0.0);
             RxTextView.textChangeEvents(editNumeric)
                     .doOnNext(e -> {
-                    if (e.text().toString().equals("")) MetaDataAdapter.setNumValue(0.0);})
+                        if (e.text().toString().equals("")) MetaDataAdapter.setNumValue(0.0);
+                    })
                     .filter(e -> !e.text().toString().equals(""))
                     .subscribe(e -> MetaDataAdapter.setNumValue(Double.parseDouble(e.text().toString())));
 
@@ -74,6 +82,13 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Конфигурация поля текстового ввода
+     *
+     * @param context
+     * @param position
+     * @return параметры размещения на layout
+     */
     @NonNull
     private GridLayout.LayoutParams configEditText(Context context, int position) {
         editText = new EditText(context);
@@ -90,6 +105,13 @@ public class ViewFactory {
         return numParams;
     }
 
+    /**
+     * Конфигурация поля численного ввода
+     *
+     * @param context
+     * @param position
+     * @return параметры размещения на layout
+     */
     @NonNull
     private GridLayout.LayoutParams configEditNumeric(Context context, int position) {
         editNumeric = new EditText(context);
@@ -106,6 +128,13 @@ public class ViewFactory {
         return numParams;
     }
 
+    /**
+     * Конфигурация выпадающего списка
+     *
+     * @param context
+     * @param position
+     * @return параметры размещения на layout
+     */
     @NonNull
     private GridLayout.LayoutParams configSpinner(Context context, Field field, int position) {
         spinner = new Spinner(context);

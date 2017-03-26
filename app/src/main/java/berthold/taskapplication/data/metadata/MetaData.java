@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Мета-данные на основе ответа сервера
+ */
 public class MetaData {
 
     @SerializedName("title")
@@ -13,7 +16,7 @@ public class MetaData {
     private String title;
     @SerializedName("fields")
     @Expose
-    private List<Field> fields ;
+    private List<Field> fields;
 
     public String getTitle() {
         return title;

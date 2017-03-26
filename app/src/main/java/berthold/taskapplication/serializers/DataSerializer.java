@@ -10,9 +10,8 @@ import java.lang.reflect.Type;
 import berthold.taskapplication.data.sending_data.DataForSend;
 
 /**
- * Created by User on 26.03.2017.
+ * Сериализация класса полностью
  */
-
 public class DataSerializer implements JsonSerializer<DataForSend> {
 
 

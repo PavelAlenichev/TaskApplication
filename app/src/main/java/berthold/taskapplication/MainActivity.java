@@ -22,7 +22,7 @@ import berthold.taskapplication.data.sending_data.Form;
 import berthold.taskapplication.serializers.DataSerializer;
 import berthold.taskapplication.serializers.FormSerializer;
 import berthold.taskapplication.service.App;
-import berthold.taskapplication.service.DataForSendBouilder;
+import berthold.taskapplication.service.DataForSendBuilder;
 import berthold.taskapplication.service.MetaDataAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -44,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
     private Disposable queryCall;
 
 
+    /**
+     * Создание активити, создание кнопок, отправка запроса на получение метаданных
+     * отображение метаданных в RecyclerView, сериализация в Json-файл и отправка
+     * на сервер по нажатию кнопки Send
+     * <p>
+     * Получение ответа с сервера и отображение в AlertDialog
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     .setLenient();
             Gson gson = builder.create();
 
-            DataForSend dataForSend = new DataForSendBouilder().build();
+            DataForSend dataForSend = new DataForSendBuilder().build();
 
             Log.d("JSON", gson.toJson(dataForSend));
             queryCall = App.getApi().getAnswer(gson.toJson(dataForSend))
@@ -113,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Конфигурация RecyclerView
+     * Вынесена из onCreate()
+     */
     private void configRecyclerView() {
         linearManager = new LinearLayoutManager(getApplicationContext());
         recyclerView = (RecyclerView) findViewById(R.id.data_recycle_view);
@@ -123,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    /**
+     * Конфигурация ProgressDialog
+     * Вынесена из onCreate()
+     */
     private void configProgressDialog() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setIndeterminate(true);
