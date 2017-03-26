@@ -21,7 +21,7 @@ public class DataSerializer implements JsonSerializer<DataForSend> {
 
         JsonObject result = new JsonObject();
 
-        result.add("Динамическая форма", context.serialize(src.getForm()));
+        result.add("form", context.serialize(src.getForm()));
 
         return result;
     }

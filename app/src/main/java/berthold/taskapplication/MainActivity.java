@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 queryCall = App.getApi().getAnswer(gson.toJson(dataForSend));
+                Log.d("JSON", gson.toJson(dataForSend));
                 queryCall.enqueue(new Callback<InformationResponse>() {
                     @Override
                     public void onResponse(Call<InformationResponse> call, Response<InformationResponse> response) {

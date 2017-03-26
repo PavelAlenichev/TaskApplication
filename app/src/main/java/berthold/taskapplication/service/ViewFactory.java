@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
+
 import berthold.taskapplication.R;
 import berthold.taskapplication.data.metadata.Field;
 
@@ -34,25 +36,10 @@ public class ViewFactory {
 
             metadataLayout.addView(editText, numParams);
 
-            editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            MetaDataAdapter.setTextValue("");
+            RxTextView.textChangeEvents(editText)
+                    .subscribe(e -> MetaDataAdapter.setTextValue(e.text().toString()));
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    MetaDataAdapter.setTextValue(s.toString());
-                    if (s.toString().isEmpty()) {
-                        MetaDataAdapter.setTextValue("");
-                    }
-                }
-            });
         } else if (field.getType().equals(TypesOfFields.NUMERIC.toString())) {
 
             GridLayout.LayoutParams numParams = configEditNumeric(context, position);
@@ -100,22 +87,19 @@ public class ViewFactory {
     }
 
     @NonNull
-    private GridLayout.LayoutParams configSpinner(Context context, Field field, int position) {
-        spinner = new Spinner(context);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                context,
-                R.layout.spinner_item,
-                field.getValues().getAll());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setTextAlignment(View.FOCUS_LEFT);
+    private GridLayout.LayoutParams configEditText(Context context, int position) {
+        editText = new EditText(context);
+        editText.setTextColor(Color.BLACK);
+        editText.setText("");
 
 
         GridLayout.Spec columns = GridLayout.spec(1, GridLayout.LEFT);
         GridLayout.Spec rows = GridLayout.spec(position);
 
-        return new GridLayout.LayoutParams(rows, columns);
+        GridLayout.LayoutParams numParams = new GridLayout.LayoutParams(rows, columns);
+        editText.setMaxLines(1);
+        numParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
+        return numParams;
     }
 
     @NonNull
@@ -134,18 +118,21 @@ public class ViewFactory {
     }
 
     @NonNull
-    private GridLayout.LayoutParams configEditText(Context context, int position) {
-        editText = new EditText(context);
-        editText.setTextColor(Color.BLACK);
-        editText.setText("");
+    private GridLayout.LayoutParams configSpinner(Context context, Field field, int position) {
+        spinner = new Spinner(context);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                context,
+                R.layout.spinner_item,
+                field.getValues().getAll());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setTextAlignment(View.FOCUS_LEFT);
 
 
         GridLayout.Spec columns = GridLayout.spec(1, GridLayout.LEFT);
         GridLayout.Spec rows = GridLayout.spec(position);
 
-        GridLayout.LayoutParams numParams = new GridLayout.LayoutParams(rows, columns);
-        editText.setMaxLines(1);
-        numParams.width = RecyclerView.LayoutParams.MATCH_PARENT;
-        return numParams;
+        return new GridLayout.LayoutParams(rows, columns);
     }
 }
