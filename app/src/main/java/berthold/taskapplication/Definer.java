@@ -14,6 +14,7 @@ import berthold.taskapplication.service.TypesOfFields;
 
 public class Definer {
 
+
     public static Object define (Field field, Context context) {
         Object neededField = new String("a");
 

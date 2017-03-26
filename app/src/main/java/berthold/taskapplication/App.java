@@ -18,7 +18,7 @@ public class App extends Application {
 
     private static ClevertecApi api;
 
-    private static final String BASE_URL = "http://test.clevertec.ru/tt/";
+    public static final String BASE_URL = "http://test.clevertec.ru/tt/";
 
 
     private static Retrofit retrofit;

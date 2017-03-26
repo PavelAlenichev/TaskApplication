@@ -68,6 +68,7 @@ public class Values {
     public List<String> getAll() {
         ArrayList<String> wholeValues = new ArrayList<>();
 
+        wholeValues.add(getEmpty());
         wholeValues.add(getK1());
         wholeValues.add(getK2());
         wholeValues.add(getK3());
