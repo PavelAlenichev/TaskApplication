@@ -1,11 +1,10 @@
-package berthold.taskapplication;
+package berthold.taskapplication.service;
 
 import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import berthold.taskapplication.service.ClevertecApi;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

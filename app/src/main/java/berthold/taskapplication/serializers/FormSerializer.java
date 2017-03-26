@@ -7,8 +7,8 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
-import berthold.taskapplication.Definer;
-import berthold.taskapplication.MetaDataAdapter;
+import berthold.taskapplication.service.Definer;
+import berthold.taskapplication.service.MetaDataAdapter;
 import berthold.taskapplication.metadata.Form;
 
 /**
