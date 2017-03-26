@@ -27,7 +27,7 @@ import berthold.taskapplication.service.TypesOfFields;
 
 public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHolder> {
 
-    private List<Field> fields;
+    private static List<Field> fields;
     private Context context;
     private EditText editNumeric;
     private EditText editText;
@@ -97,6 +97,9 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
                 @Override
                 public void afterTextChanged(Editable s) {
                     textValue = s.toString();
+                    if (s.toString().isEmpty()) {
+                        textValue = "";
+                    }
                 }
             });
 
@@ -105,6 +108,7 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
             editNumeric = new EditText(context);
             editNumeric.setInputType(2);
             editNumeric.setTextColor(Color.BLACK);
+            editNumeric.setText("0.0");
 
             GridLayout.Spec columns = GridLayout.spec(1, GridLayout.CENTER);
             GridLayout.Spec rows = GridLayout.spec(position);
@@ -118,7 +122,6 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
             editNumeric.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
@@ -130,6 +133,8 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
                 public void afterTextChanged(Editable s) {
                     if (!s.toString().isEmpty()) {
                         numValue = Double.parseDouble(s.toString());
+                    } else {
+                        numValue = 0.0;
                     }
                 }
             });
@@ -171,12 +176,20 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         ArrayList<String> values = new ArrayList<>();
 
         values.add(textValue);
-        values.add(numValue.toString());
+        try {
+            values.add(numValue.toString());
+        } catch (NullPointerException e) {
+            values.add("0");
+        }
+
         values.add(spinnerValue);
 
         return values;
     }
 
+    public static List<Field> getFields() {
+        return fields;
+    }
 
     @Override
     public int getItemCount() {

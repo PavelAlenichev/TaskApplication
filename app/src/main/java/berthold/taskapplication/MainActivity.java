@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 MetaDataAdapter adapter1 = new MetaDataAdapter(response.body().getFields(), getApplicationContext());
                 recyclerView.setAdapter(adapter1);
                 Log.d(LOG_TAG, title[0]);
-                Log.d(LOG_TAG, response.body().getFields().get(2).getValues().getK1());
+                //Log.d(LOG_TAG, response.body().getFields().get(2).getValues().getK1());
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
 
@@ -86,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Information");
 
 
-                alert.setMessage(MetaDataAdapter.getValues().toString());
+                try {
+                    alert.setMessage(Definer.lol());
+                } catch (NoSuchFieldException e) {
+                    alert.setMessage(e.getMessage());
+                }
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
