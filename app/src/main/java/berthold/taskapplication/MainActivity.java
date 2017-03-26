@@ -19,15 +19,17 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import berthold.taskapplication.data.sending_data.DataForSend;
 import berthold.taskapplication.data.metadata.Field;
-import berthold.taskapplication.data.sending_data.Form;
-import berthold.taskapplication.data.result_response.InformationResponse;
 import berthold.taskapplication.data.metadata.MetaData;
+import berthold.taskapplication.data.result_response.InformationResponse;
+import berthold.taskapplication.data.sending_data.DataForSend;
+import berthold.taskapplication.data.sending_data.Form;
 import berthold.taskapplication.serializers.DataSerializer;
 import berthold.taskapplication.serializers.FormSerializer;
 import berthold.taskapplication.service.App;
 import berthold.taskapplication.service.MetaDataAdapter;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,13 +69,10 @@ public class MainActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())
                 .map(s -> fields = s.getFields())
-                .subscribe();*/
+                .subscribe();
 
-        progressDialog.show();
-        metaDataCall = App.getApi().getMetaData();
-        metaDataCall.enqueue(new Callback<MetaData>() {
-            @Override
-            public void onResponse(Call<MetaData> call, Response<MetaData> response) {
+                _______________to response:
+
                 progressDialog.dismiss();
                 Log.d(LOG_TAG, response.body().getTitle());
                 setTitle(response.body().getTitle());
@@ -85,14 +84,27 @@ public class MainActivity extends AppCompatActivity {
                 MetaDataAdapter adapter1 = new MetaDataAdapter(response.body().getFields(), getApplicationContext());
                 recyclerView.setAdapter(adapter1);
                 recyclerView.getAdapter().notifyDataSetChanged();
-            }
+                */
 
-            @Override
-            public void onFailure(Call<MetaData> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "An error occurred during networking",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        progressDialog.show();
+
+        App.getApi().getMetaData()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.computation())
+                .subscribe(s -> {
+                    progressDialog.dismiss();
+                    Log.d(LOG_TAG, s.getTitle());
+                    setTitle(s.getTitle());
+
+                    recyclerView.setVerticalScrollBarEnabled(true);
+                    recyclerView.setHorizontalScrollBarEnabled(true);
+
+                    fields = s.getFields();
+                    MetaDataAdapter adapter1 = new MetaDataAdapter(s.getFields(), getApplicationContext());
+                    recyclerView.setAdapter(adapter1);
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                });
 
 
         sendButton.setOnClickListener(new View.OnClickListener() {

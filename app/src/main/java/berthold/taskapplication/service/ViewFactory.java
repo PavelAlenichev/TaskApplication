@@ -58,6 +58,8 @@ public class ViewFactory {
 
             metadataLayout.addView(spinner, numParams);
 
+            //TODO: QUESTION ABOUT ANDROID RX LISTENER
+
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
