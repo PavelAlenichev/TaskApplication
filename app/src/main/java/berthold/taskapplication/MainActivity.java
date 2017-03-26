@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         sendButton = (Button) findViewById(R.id.sendButton);
 
+        configProgressDialog();
+
 
         /*App.getApi()
                 .getMetaData()
@@ -67,13 +69,12 @@ public class MainActivity extends AppCompatActivity {
                 .map(s -> fields = s.getFields())
                 .subscribe();*/
 
-        final String[] title = new String[1];
+        progressDialog.show();
         metaDataCall = App.getApi().getMetaData();
         metaDataCall.enqueue(new Callback<MetaData>() {
             @Override
             public void onResponse(Call<MetaData> call, Response<MetaData> response) {
                 progressDialog.dismiss();
-                title[0] = response.body().getTitle();
                 Log.d(LOG_TAG, response.body().getTitle());
                 setTitle(response.body().getTitle());
 
@@ -159,9 +160,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void configProgressDialog() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
