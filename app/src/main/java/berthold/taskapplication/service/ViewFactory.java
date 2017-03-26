@@ -4,9 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,26 +44,14 @@ public class ViewFactory {
 
             metadataLayout.addView(editNumeric, numParams);
 
-            editNumeric.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    MetaDataAdapter.setNumValue(0.0);
-                }
+            MetaDataAdapter.setNumValue(0.0);
+            RxTextView.textChangeEvents(editNumeric)
+                    .doOnNext(e -> {
+                    if (e.text().toString().equals("")) MetaDataAdapter.setNumValue(0.0);})
+                    .filter(e -> !e.text().toString().equals(""))
+                    .subscribe(e -> MetaDataAdapter.setNumValue(Double.parseDouble(e.text().toString())));
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (!s.toString().isEmpty()) {
-                        MetaDataAdapter.setNumValue(Double.parseDouble(s.toString()));
-                    } else {
-                        MetaDataAdapter.setNumValue(0.0);
-                    }
-                }
-            });
         } else if (field.getType().equals(TypesOfFields.LIST.toString())) {
 
             GridLayout.LayoutParams numParams = configSpinner(context, field, position);
@@ -108,6 +94,7 @@ public class ViewFactory {
         editNumeric.setMaxLines(1);
         editNumeric.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editNumeric.setTextColor(Color.BLACK);
+        //editNumeric.setText("0");
 
         GridLayout.Spec columns = GridLayout.spec(1, GridLayout.CENTER);
         GridLayout.Spec rows = GridLayout.spec(position);
