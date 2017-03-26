@@ -11,10 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.List;
 
+import berthold.taskapplication.metadata.DataForSend;
 import berthold.taskapplication.metadata.Field;
+import berthold.taskapplication.metadata.Form;
 import berthold.taskapplication.metadata.MetaData;
+import berthold.taskapplication.serializers.DataSerializer;
+import berthold.taskapplication.serializers.FormSerializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,13 +88,25 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GsonBuilder builder = new GsonBuilder()
+                        .setPrettyPrinting()
+                        .registerTypeAdapter(Form.class, new FormSerializer())
+                        .registerTypeAdapter(DataForSend.class, new DataSerializer())
+                        .setLenient();
+                Gson gson = builder.create();
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 AlertDialog dialog;
                 alert.setTitle("Information");
 
+                DataForSend dataForSend = new DataForSend();
+                Form form = new Form();
+                form.setTextEdit("");
+                form.setNumEdit("");
+                form.setSpinValue("");
+                dataForSend.setForm(form);
 
-
-                alert.setMessage(MetaDataAdapter.getValues() + Definer.defineSpinnerParam());
+                Log.d("Gson", gson.toJson(dataForSend));
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -95,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-
                 dialog = alert.create();
                 dialog.show();
             }

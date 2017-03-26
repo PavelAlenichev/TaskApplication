@@ -35,7 +35,7 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
     private Spinner spinner;
 
     private static Double numValue;
-    private static String textValue;
+    private static String textValue = "";
     private static String spinnerValue;
 
     public MetaDataAdapter(List<Field> fields, Context applicationContext) {
@@ -72,6 +72,7 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         if (field.getType().equals(TypesOfFields.TEXT.toString())) {
             editText = new EditText(context);
             editText.setTextColor(Color.BLACK);
+            editText.setText("");
 
             GridLayout.Spec columns = GridLayout.spec(1, GridLayout.CENTER);
             GridLayout.Spec rows = GridLayout.spec(position);

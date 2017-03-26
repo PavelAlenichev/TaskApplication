@@ -1,7 +1,5 @@
 package berthold.taskapplication.service;
 
-import com.google.gson.JsonObject;
-
 import berthold.taskapplication.metadata.InformationResponse;
 import berthold.taskapplication.metadata.MetaData;
 import retrofit2.Call;

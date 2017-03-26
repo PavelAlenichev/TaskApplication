@@ -1,14 +1,21 @@
 package berthold.taskapplication.metadata;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by User on 26.03.2017.
  */
 
 public class DataForSend {
 
-    private String textEdit;
+    @Expose
+    private Form form;
 
-    private String numEdit;
+    public Form getForm() {
+        return form;
+    }
 
-    private String fieldValue;
+    public void setForm(Form form) {
+        this.form = form;
+    }
 }
