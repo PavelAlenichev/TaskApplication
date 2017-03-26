@@ -86,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Information");
 
 
-                try {
-                    alert.setMessage(Definer.lol());
-                } catch (NoSuchFieldException e) {
-                    alert.setMessage(e.getMessage());
-                }
+
+                alert.setMessage(MetaDataAdapter.getValues() + Definer.defineSpinnerParam());
+
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

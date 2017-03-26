@@ -34,7 +34,7 @@ public class Definer {
         return editText;
     }
 
-    public static String lol() throws NoSuchFieldException {
+    public static String defineSpinnerParam() {
 
         List<String> lol = MetaDataAdapter.getValues();
 
@@ -48,37 +48,20 @@ public class Definer {
         for (Field field : fields) {
 
             if (field.getType().equals(TypesOfFields.LIST.toString())) {
-                Class c = field.getValues().getClass();
 
-                java.lang.reflect.Field [] strings = c.getDeclaredFields();
-
-                try {
-
-                    for (java.lang.reflect.Field string : strings) {
-
-                        string.setAccessible(true);
-
-                        Object values = c.newInstance();
-
-                        /*values.setEmpty(field.getValues().getEmpty());
-                        values.setK1(field.getValues().getK1());
-                        values.setK2(field.getValues().getK2());
-                        values.setK3(field.getValues().getK3());
-                        values.setK4(field.getValues().getK4());*/
-
-                        String buffer = (String) string.get(values.getClass());
-
-                        if (buffer.equals(neededValue)) {
-                            param = buffer;
-                        }
-
-                    }
-                } catch (Exception e) {
-                    return e.getMessage();
+                if (neededValue.equals(field.getValues().getEmpty())) {
+                    param = "empty";
+                } else if (neededValue.equals(field.getValues().getK1())) {
+                    param = "k1";
+                } else if (neededValue.equals(field.getValues().getK2())) {
+                    param = "k2";
+                } else if (neededValue.equals(field.getValues().getK3())) {
+                    param = "k3";
+                } else if (neededValue.equals(field.getValues().getK4())) {
+                    param = "k4";
                 }
             }
         }
-
         return param;
     }
 }
