@@ -1,9 +1,8 @@
 package berthold.taskapplication.service;
 
-import berthold.taskapplication.data.result_response.InformationResponse;
 import berthold.taskapplication.data.metadata.MetaData;
+import berthold.taskapplication.data.result_response.InformationResponse;
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -17,5 +16,5 @@ public interface ClevertecApi {
     Observable<MetaData> getMetaData();
 
     @POST("data")
-    Call<InformationResponse> getAnswer(@Query("json")String json);
+    Observable<InformationResponse> getAnswer(@Query("json")String json);
 }

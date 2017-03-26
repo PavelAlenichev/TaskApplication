@@ -9,10 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,19 +18,16 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import berthold.taskapplication.data.metadata.Field;
-import berthold.taskapplication.data.metadata.MetaData;
-import berthold.taskapplication.data.result_response.InformationResponse;
 import berthold.taskapplication.data.sending_data.DataForSend;
 import berthold.taskapplication.data.sending_data.Form;
 import berthold.taskapplication.serializers.DataSerializer;
 import berthold.taskapplication.serializers.FormSerializer;
 import berthold.taskapplication.service.App;
+import berthold.taskapplication.service.DataForSendBouilder;
 import berthold.taskapplication.service.MetaDataAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private TextView tableTitle;
 
-    Call<MetaData> metaDataCall;
-    Call<InformationResponse> queryCall;
+    Disposable metaDataCall;
+    Disposable queryCall;
 
 
     @Override
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        App.getApi().getMetaData()
+        metaDataCall = App.getApi().getMetaData()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())
@@ -107,35 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        /*
 
-                progressDialog.show();
+        ____________on response
 
-                GsonBuilder builder = new GsonBuilder()
-                        .setPrettyPrinting()
-                        .registerTypeAdapter(Form.class, new FormSerializer())
-                        .registerTypeAdapter(DataForSend.class, new DataSerializer())
-                        .setLenient();
-                Gson gson = builder.create();
-
-
-
-                DataForSend dataForSend = new DataForSend();
-                Form form = new Form();
-                form.setTextEdit("");
-                form.setNumEdit("");
-                form.setSpinValue("");
-                dataForSend.setForm(form);
-
-
-                queryCall = App.getApi().getAnswer(gson.toJson(dataForSend));
-                Log.d("JSON", gson.toJson(dataForSend));
-                queryCall.enqueue(new Callback<InformationResponse>() {
-                    @Override
-                    public void onResponse(Call<InformationResponse> call, Response<InformationResponse> response) {
-                        Log.d("Answer", response.body().getResult());
+        Log.d("Answer", response.body().getResult());
                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                         AlertDialog dialog;
                         alert.setTitle("Information");
@@ -152,14 +123,43 @@ public class MainActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
 
-                    @Override
-                    public void onFailure(Call<InformationResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error while network", Toast.LENGTH_SHORT).show();
-                    }
-                });
+         */
 
 
-            }
+        sendButton.setOnClickListener(v -> {
+            progressDialog.show();
+
+            GsonBuilder builder = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(Form.class, new FormSerializer())
+                    .registerTypeAdapter(DataForSend.class, new DataSerializer())
+                    .setLenient();
+            Gson gson = builder.create();
+
+            DataForSend dataForSend = new DataForSendBouilder().build();
+
+            Log.d("JSON", gson.toJson(dataForSend));
+            queryCall = App.getApi().getAnswer(gson.toJson(dataForSend))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.computation())
+                    .subscribe(s -> {
+                        Log.d("Answer", s.getResult());
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                        AlertDialog dialog;
+                        alert.setTitle("Information");
+                        alert.setMessage(s.getResult());
+
+                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        dialog = alert.create();
+                        dialog.show();
+                        progressDialog.dismiss();
+                    });
         });
     }
 
@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                metaDataCall.cancel();
-                queryCall.cancel();
+                metaDataCall.dispose();
+                queryCall.dispose();
             }
         });
     }
