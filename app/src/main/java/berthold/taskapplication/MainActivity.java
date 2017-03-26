@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         configRecyclerView();
 
         sendButton = (Button) findViewById(R.id.sendButton);
-        tableTitle = (TextView) findViewById(R.id.tableTitle);
 
 
         /*App.getApi()
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 title[0] = response.body().getTitle();
                 Log.d(LOG_TAG, response.body().getTitle());
+                setTitle(response.body().getTitle());
 
                 recyclerView.setVerticalScrollBarEnabled(true);
                 recyclerView.setHorizontalScrollBarEnabled(true);
@@ -93,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tableTitle.setText(title[0]);
-        tableTitle.setText("baaaka");
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
