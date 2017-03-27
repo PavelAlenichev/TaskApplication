@@ -6,7 +6,7 @@ import dagger.Component;
 import retrofit2.Retrofit;
 
 /**
- * Created by User on 27.03.2017.
+ * Возвращает настроенный клиент ретрофита
  */
 @Singleton
 @Component(modules = NetworkModule.class)

@@ -5,11 +5,16 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 
 /**
- * Created by User on 27.03.2017.
+ * Создает уже натсроенный клиент ретрофита
  */
 @Module
 public class ApiModule {
 
+    /**
+     *
+     * @param retrofit с заданными настройками
+     * @return Retrofit клиент
+     */
     @Provides
     @CustomScope
     ClevertecApi provideClevertecApi(Retrofit retrofit) {

@@ -21,8 +21,6 @@ import berthold.taskapplication.service.TypesOfFields;
 /**
  * Factory для создания view и отображения на RecyclerView
  */
-
-
 public class ViewFactory implements Factory {
 
     private static EditText editNumeric;
@@ -56,6 +54,14 @@ public class ViewFactory implements Factory {
         }
     }
 
+    /**
+     * Получение данных со всех полей в нужный момент
+     *
+     * @return List<String>, где
+     * 0 - значение editText
+     * 1 - значение editNumeric
+     * 2 - значение spinner
+     */
     @Override
     public List<String> getValues() {
         ArrayList<String> values = new ArrayList<>();

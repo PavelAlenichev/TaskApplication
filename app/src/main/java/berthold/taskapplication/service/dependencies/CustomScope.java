@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Created by User on 27.03.2017.
+ * Собственное пространство имен для локальных синглтонов
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

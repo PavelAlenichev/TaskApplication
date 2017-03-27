@@ -7,27 +7,35 @@ import berthold.taskapplication.service.dependencies.NetworkComponent;
 import berthold.taskapplication.service.dependencies.NetworkModule;
 
 /**
- * Created by User on 27.03.2017.
+ * Класс, разрешающий зависимости между Api и Retrofit, создание и настройка компонент
  */
 
 public class TaskApplication extends android.app.Application {
 
     private ApiComponent apiComponent;
 
+    /**
+     * Установка нужных зависимостей
+     */
     @Override
     public void onCreate() {
-
         resolveDependency();
-
         super.onCreate();
     }
 
+    /**
+     * Создание и настройка ApiComponent
+     */
     private void resolveDependency() {
         apiComponent = DaggerApiComponent.builder()
                 .networkComponent(getNetworkComponent())
                 .build();
     }
 
+    /**
+     * Создание и настройка NetworkComponent
+     * @return networkComponent
+     */
     public NetworkComponent getNetworkComponent() {
 
         return DaggerNetworkComponent.builder()

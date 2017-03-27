@@ -34,6 +34,13 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         this.factory = factory;
     }
 
+    /**
+     * Создание view
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public MetaDataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -41,6 +48,12 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         return new ViewHolder(v);
     }
 
+    /**
+     * Создание новых объектов
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(MetaDataAdapter.ViewHolder holder, int position) {
         Field field = fields.get(position);
@@ -62,10 +75,11 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         factory.setViews(context, field, position, metadataLayout);
     }
 
-    public static List<Field> getFields() {
-        return fields;
-    }
-
+    /**
+     * Получение количества item'ов
+     *
+     * @return количество полей в field
+     */
     @Override
     public int getItemCount() {
         if (fields == null) {
@@ -74,6 +88,13 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         return fields.size();
     }
 
+    public static List<Field> getFields() {
+        return fields;
+    }
+
+    /**
+     * Опрделение GridLayout'a
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
 

@@ -15,6 +15,11 @@ public class DataForSendBuilder {
         this.factory = factory;
     }
 
+    /**
+     * Создает объект класса для сериализации
+     *
+     * @return возвращает объект для сериализации
+     */
     public DataForSend build() {
 
         DataForSend dataForSend = new DataForSend();

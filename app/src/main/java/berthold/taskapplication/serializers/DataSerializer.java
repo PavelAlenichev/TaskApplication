@@ -15,6 +15,14 @@ import berthold.taskapplication.data.sending_data.DataForSend;
 public class DataSerializer implements JsonSerializer<DataForSend> {
 
 
+    /**
+     * Валидная сериализация введенных пользователем данных
+     *
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement для отправки на сервер
+     */
     @Override
     public JsonElement serialize(DataForSend src, Type typeOfSrc, JsonSerializationContext context) {
 

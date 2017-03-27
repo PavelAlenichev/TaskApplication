@@ -12,7 +12,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by User on 27.03.2017.
+ * Модуль, предоставляющий клиент ретрофита
+ * Хардкод для базового адреса
  */
 @Module
 public class NetworkModule {
@@ -22,7 +23,12 @@ public class NetworkModule {
             .setLenient()
             .create();
 
-
+    /**
+     * Настраивает retrofit для создания. использует дефолтный url, google gson конвертер
+     * RxJava2CallAdapter для обработки принятых данных с помощью rxJava
+     *
+     * @return настроенный retrofit
+     */
     @Provides
     @Singleton
     Retrofit provideRetrofit() {

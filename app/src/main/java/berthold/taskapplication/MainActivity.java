@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String LOG_TAG = "tags";
+    private final String LOG_TAG = "PavelLogs";
     private RecyclerView.LayoutManager linearManager;
 
     private RecyclerView recyclerView;
@@ -57,8 +57,18 @@ public class MainActivity extends AppCompatActivity {
      * Создание активити, создание кнопок, отправка запроса на получение метаданных
      * отображение метаданных в RecyclerView, сериализация в Json-файл и отправка
      * на сервер по нажатию кнопки Send
-     * <p>
+     *
      * Получение ответа с сервера и отображение в AlertDialog
+     *
+     * Все комментарии добавлены лишь для улучшения понимания кода, логирование в некоторых местах -
+     * Самопроверка
+     *
+     * Код-стайла я придерживался стандартного, но с элементами google - комментарии к каждым методам
+     * И классам
+     *
+     * Замечание по поводу поворота экрана: оно поддерживается стандартно, т.к. я использовал версию
+     * Retrofit'a, где есть поддержка смены ориентации во время запроса
+     *
      *
      * @param savedInstanceState
      */
@@ -69,23 +79,24 @@ public class MainActivity extends AppCompatActivity {
 
         ((TaskApplication) getApplication())
                 .getApiComponent()
-                .inject(MainActivity.this);
+                .inject(MainActivity.this); // Внедрение зависимостей
 
-        configRecyclerView();
+        configRecyclerView(); // Конфигурация RecyclerView
 
         sendButton = (Button) findViewById(R.id.sendButton);
 
-        configProgressDialog();
+        configProgressDialog(); // Конфигурация анимации ожидания
 
-        progressDialog.show();
-        factory = new ViewFactory();
+        progressDialog.show(); // Пока идет получение данных с сервера, отображать анимацию ожидания
+        factory = new ViewFactory(); // Создание нужной Factory для дальнейшего использования
 
-        metaDataCall = clevertecApi.getMetaData()
+        metaDataCall = clevertecApi.getMetaData() // Получение мета-информации с сервера и обработка
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())
                 .subscribe(s -> {
-                    progressDialog.dismiss();
+                    progressDialog.dismiss(); // Отключение анимации по получении запроса и далее
+                                              // построение формы
                     Log.d(LOG_TAG, s.getTitle());
                     setTitle(s.getTitle());
 
@@ -93,14 +104,15 @@ public class MainActivity extends AppCompatActivity {
                     recyclerView.setHorizontalScrollBarEnabled(true);
 
                     fields = s.getFields();
-                    MetaDataAdapter adapter1 = new MetaDataAdapter(s.getFields(), factory, getApplicationContext());
+                    MetaDataAdapter adapter1 = new MetaDataAdapter(s.getFields(),
+                            factory, getApplicationContext());
                     recyclerView.setAdapter(adapter1);
                     recyclerView.getAdapter().notifyDataSetChanged();
                 });
 
 
         sendButton.setOnClickListener(v -> {
-            progressDialog.show();
+            progressDialog.show();  // До получения ответа с сервера - отображение анимации
 
             GsonBuilder builder = new GsonBuilder()
                     .setPrettyPrinting()
@@ -112,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             DataForSend dataForSend = new DataForSendBuilder(factory).build();
 
             Log.d("JSON", gson.toJson(dataForSend));
-            queryCall = clevertecApi.getAnswer(gson.toJson(dataForSend))
+            queryCall = clevertecApi.getAnswer(gson.toJson(dataForSend)) // Получение ответа с сервера
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .unsubscribeOn(Schedulers.computation())

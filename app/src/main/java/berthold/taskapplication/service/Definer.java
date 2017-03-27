@@ -7,12 +7,16 @@ import berthold.taskapplication.service.factories.Factory;
 
 /**
  * Для определения имени свойства выпадающего списка
- * (Была попытка осуществить через рефлексию. После долгих часов hard-try'я она безуспешно провалилась)
  */
-
 public class Definer {
 
 
+    /**
+     * Определение названия свойства spinner'a
+     *
+     * @param factory для получения текущего значения spinner'a
+     * @return название свойства спиннера для текущего item'a
+     */
     public static String defineSpinnerParam(Factory factory) {
 
         List<String> lol = factory.getValues();

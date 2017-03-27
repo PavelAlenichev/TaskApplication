@@ -22,6 +22,14 @@ public class FormSerializer implements JsonSerializer<Form> {
         this.factory = factory;
     }
 
+    /**
+     * Сериализация полей данных для вставки в класс DataForSend и его последующей сериализации
+     *
+     * @param src
+     * @param typeOfSrc
+     * @param context
+     * @return JsonElement c введенными пользовательскими данными
+     */
     @Override
     public JsonElement serialize(Form src, Type typeOfSrc, JsonSerializationContext context) {
 
