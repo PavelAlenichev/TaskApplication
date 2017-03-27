@@ -1,4 +1,4 @@
-package berthold.taskapplication.service;
+package berthold.taskapplication.service.factories;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -6,25 +6,28 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Spinner;
 
-import com.jakewharton.rxbinding2.widget.RxTextView;
+import java.util.ArrayList;
+import java.util.List;
 
 import berthold.taskapplication.R;
 import berthold.taskapplication.data.metadata.Field;
+import berthold.taskapplication.service.TypesOfFields;
 
 /**
  * Factory для создания view и отображения на RecyclerView
  */
-public class ViewFactory {
 
-    private EditText editNumeric;
-    private EditText editText;
-    private Spinner spinner;
+
+public class ViewFactory implements Factory {
+
+    private static EditText editNumeric;
+    private static EditText editText;
+    private static Spinner spinner;
 
     /**
      * Создание views в зависимости от типа
@@ -38,49 +41,37 @@ public class ViewFactory {
         if (field.getType().equals(TypesOfFields.TEXT.toString())) {
 
             GridLayout.LayoutParams numParams = configEditText(context, position);
-
             metadataLayout.addView(editText, numParams);
-
-            MetaDataAdapter.setTextValue("");
-            RxTextView.textChangeEvents(editText)
-                    .subscribe(e -> MetaDataAdapter.setTextValue(e.text().toString()));
 
         } else if (field.getType().equals(TypesOfFields.NUMERIC.toString())) {
 
             GridLayout.LayoutParams numParams = configEditNumeric(context, position);
-
             metadataLayout.addView(editNumeric, numParams);
-
-            MetaDataAdapter.setNumValue(0.0);
-            RxTextView.textChangeEvents(editNumeric)
-                    .doOnNext(e -> {
-                        if (e.text().toString().equals("")) MetaDataAdapter.setNumValue(0.0);
-                    })
-                    .filter(e -> !e.text().toString().equals(""))
-                    .subscribe(e -> MetaDataAdapter.setNumValue(Double.parseDouble(e.text().toString())));
-
 
         } else if (field.getType().equals(TypesOfFields.LIST.toString())) {
 
             GridLayout.LayoutParams numParams = configSpinner(context, field, position);
 
             metadataLayout.addView(spinner, numParams);
-
-            //TODO: QUESTION ABOUT ANDROID RX LISTENER
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    MetaDataAdapter.setSpinnerValue(spinner.getSelectedItem().toString());
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    MetaDataAdapter.setSpinnerValue(spinner.getSelectedItem().toString());
-                }
-            });
         }
     }
+
+    @Override
+    public List<String> getValues() {
+        ArrayList<String> values = new ArrayList<>();
+
+        values.add(editText.getText().toString());
+
+        if (editNumeric.getText().toString().equals("")) {
+            values.add("0.0");
+        } else {
+            values.add(editNumeric.getText().toString());
+        }
+        values.add(spinner.getSelectedItem().toString());
+
+        return values;
+    }
+
 
     /**
      * Конфигурация поля текстового ввода

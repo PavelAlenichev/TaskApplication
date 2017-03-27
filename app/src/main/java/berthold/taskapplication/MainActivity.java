@@ -16,14 +16,19 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import berthold.taskapplication.data.application.TaskApplication;
 import berthold.taskapplication.data.metadata.Field;
 import berthold.taskapplication.data.sending_data.DataForSend;
 import berthold.taskapplication.data.sending_data.Form;
 import berthold.taskapplication.serializers.DataSerializer;
 import berthold.taskapplication.serializers.FormSerializer;
-import berthold.taskapplication.service.App;
 import berthold.taskapplication.service.DataForSendBuilder;
 import berthold.taskapplication.service.MetaDataAdapter;
+import berthold.taskapplication.service.dependencies.ClevertecApi;
+import berthold.taskapplication.service.factories.Factory;
+import berthold.taskapplication.service.factories.ViewFactory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -42,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Disposable metaDataCall;
     private Disposable queryCall;
+    private Factory factory;
+
+    @Inject
+    ClevertecApi clevertecApi;
 
 
     /**
@@ -58,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ((TaskApplication) getApplication())
+                .getApiComponent()
+                .inject(MainActivity.this);
+
         configRecyclerView();
 
         sendButton = (Button) findViewById(R.id.sendButton);
@@ -65,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
         configProgressDialog();
 
         progressDialog.show();
+        factory = new ViewFactory();
 
-        metaDataCall = App.getApi().getMetaData()
+        metaDataCall = clevertecApi.getMetaData()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.computation())
@@ -79,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     recyclerView.setHorizontalScrollBarEnabled(true);
 
                     fields = s.getFields();
-                    MetaDataAdapter adapter1 = new MetaDataAdapter(s.getFields(), getApplicationContext());
+                    MetaDataAdapter adapter1 = new MetaDataAdapter(s.getFields(), factory, getApplicationContext());
                     recyclerView.setAdapter(adapter1);
                     recyclerView.getAdapter().notifyDataSetChanged();
                 });
@@ -90,15 +104,15 @@ public class MainActivity extends AppCompatActivity {
 
             GsonBuilder builder = new GsonBuilder()
                     .setPrettyPrinting()
-                    .registerTypeAdapter(Form.class, new FormSerializer())
+                    .registerTypeAdapter(Form.class, new FormSerializer(factory))
                     .registerTypeAdapter(DataForSend.class, new DataSerializer())
                     .setLenient();
             Gson gson = builder.create();
 
-            DataForSend dataForSend = new DataForSendBuilder().build();
+            DataForSend dataForSend = new DataForSendBuilder(factory).build();
 
             Log.d("JSON", gson.toJson(dataForSend));
-            queryCall = App.getApi().getAnswer(gson.toJson(dataForSend))
+            queryCall = clevertecApi.getAnswer(gson.toJson(dataForSend))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .unsubscribeOn(Schedulers.computation())
@@ -130,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         linearManager = new LinearLayoutManager(getApplicationContext());
         recyclerView = (RecyclerView) findViewById(R.id.data_recycle_view);
         recyclerView.setLayoutManager(linearManager);
-        MetaDataAdapter adapter = new MetaDataAdapter(fields, getApplicationContext());
+        MetaDataAdapter adapter = new MetaDataAdapter(fields, factory, getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -3,6 +3,7 @@ package berthold.taskapplication.service;
 import java.util.List;
 
 import berthold.taskapplication.data.metadata.Field;
+import berthold.taskapplication.service.factories.Factory;
 
 /**
  * Для определения имени свойства выпадающего списка
@@ -12,9 +13,9 @@ import berthold.taskapplication.data.metadata.Field;
 public class Definer {
 
 
-    public static String defineSpinnerParam() {
+    public static String defineSpinnerParam(Factory factory) {
 
-        List<String> lol = MetaDataAdapter.getValues();
+        List<String> lol = factory.getValues();
         List<Field> fields = MetaDataAdapter.getFields();
 
 

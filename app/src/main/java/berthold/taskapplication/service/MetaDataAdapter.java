@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import berthold.taskapplication.R;
 import berthold.taskapplication.data.metadata.Field;
+import berthold.taskapplication.service.factories.Factory;
 
 /**
  * Адаптер для RecyclerView с динамическим построением формы
@@ -25,30 +25,13 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
     private TextView postItem;
 
     private static GridLayout metadataLayout;
+    private Factory factory;
 
-    public static GridLayout getMetadataLayout() {
-        return metadataLayout;
-    }
 
-    private static Double numValue;
-    private static String textValue = "";
-    private static String spinnerValue;
-
-    public static void setNumValue(Double numValue) {
-        MetaDataAdapter.numValue = numValue;
-    }
-
-    public static void setTextValue(String textValue) {
-        MetaDataAdapter.textValue = textValue;
-    }
-
-    public static void setSpinnerValue(String spinnerValue) {
-        MetaDataAdapter.spinnerValue = spinnerValue;
-    }
-
-    public MetaDataAdapter(List<Field> fields, Context applicationContext) {
+    public MetaDataAdapter(List<Field> fields, Factory factory, Context applicationContext) {
         this.fields = fields;
         this.context = applicationContext;
+        this.factory = factory;
     }
 
     @Override
@@ -76,25 +59,7 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
 
         metadataLayout.setPadding(10, 0, 15, 0);
 
-
-        ViewFactory factory = new ViewFactory();
         factory.setViews(context, field, position, metadataLayout);
-    }
-
-    public static List<String> getValues() {
-
-        ArrayList<String> values = new ArrayList<>();
-
-        values.add(textValue);
-        try {
-            values.add(numValue.toString());
-        } catch (NullPointerException e) {
-            values.add("0");
-        }
-
-        values.add(spinnerValue);
-
-        return values;
     }
 
     public static List<Field> getFields() {

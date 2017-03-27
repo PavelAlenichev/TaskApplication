@@ -1,4 +1,4 @@
-package berthold.taskapplication.service;
+package berthold.taskapplication.service.dependencies;
 
 import berthold.taskapplication.data.metadata.MetaData;
 import berthold.taskapplication.data.result_response.InformationResponse;
@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 /**
  * POST-запросы на адреса http://test.clevertec.ru/tt/meta и http://test.clevertec.ru/tt/data
  */
+//@Module
 public interface ClevertecApi {
 
     /**
