@@ -150,4 +150,20 @@ public class ViewFactory implements Factory {
 
         return new GridLayout.LayoutParams(rows, columns);
     }
+
+    public static int getSpinnerOrderItem() {
+        return spinner.getSelectedItemPosition();
+    }
+
+    public static void setTextValue(String text) {
+        editText.setText(text);
+    }
+
+    public static void setNumValue(String num) {
+        editNumeric.setText(num);
+    }
+
+    public static void setSpinnerValue(int value) {
+        spinner.setSelection(value);
+    }
 }

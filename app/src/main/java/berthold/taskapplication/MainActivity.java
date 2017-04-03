@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("Answer", s.getResult());
                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                         AlertDialog dialog;
-                        alert.setTitle("Information");
+                        alert.setTitle(getResources().getString(R.string.alert_title));
                         alert.setMessage(s.getResult());
 
                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -170,8 +170,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setTitle("Downloading");
-        progressDialog.setMessage("wait...");
+        progressDialog.setTitle(getResources().getString(R.string.download_message));
+        progressDialog.setMessage(getResources().getString(R.string.handling_message));
 
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -180,5 +180,21 @@ public class MainActivity extends AppCompatActivity {
                 queryCall.dispose();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(getResources().getString(R.string.text_key), factory.getValues().get(0));
+        outState.putString(getResources().getString(R.string.num_key), factory.getValues().get(1));
+        outState.putInt(getResources().getString(R.string.spinner_key), ViewFactory.getSpinnerOrderItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ViewFactory.setTextValue(savedInstanceState.getString(getResources().getString(R.string.text_key)));
+        ViewFactory.setNumValue(savedInstanceState.getString(getResources().getString(R.string.num_key)));
+        ViewFactory.setSpinnerValue(savedInstanceState.getInt(getResources().getString(R.string.spinner_key)));
     }
 }
